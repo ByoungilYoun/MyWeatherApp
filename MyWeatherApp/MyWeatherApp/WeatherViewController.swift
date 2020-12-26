@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 class WeatherViewController: UIViewController {
   
@@ -19,6 +20,7 @@ class WeatherViewController: UIViewController {
   lazy var conditionalImageView : UIImageView = {
     var v = UIImageView()
     v.image = UIImage(named: "imClouds")
+    v.isSkeletonable = true
     v.clipsToBounds = true
     v.contentMode = .scaleAspectFit
     return v
@@ -29,6 +31,7 @@ class WeatherViewController: UIViewController {
     l.text = "24°C"
     l.font = UIFont.boldSystemFont(ofSize: 26)
     l.textAlignment = .center
+    l.isSkeletonable = true
     l.textColor = .lightGray
     return l
   }()
@@ -38,6 +41,7 @@ class WeatherViewController: UIViewController {
     l.text = "Mostly Cloudy"
     l.font = UIFont.systemFont(ofSize: 26)
     l.textAlignment = .center
+    l.isSkeletonable = true
     return l
   }()
   
@@ -47,7 +51,8 @@ class WeatherViewController: UIViewController {
     super.viewDidLoad()
     setNavi()
     configureUI()
-    weatherManager.fetchWeather(city: "Singapore")
+    fetchWeather()
+    showAnimation()
   }
   
   //MARK: - setNavi()
@@ -87,6 +92,18 @@ class WeatherViewController: UIViewController {
       conditionLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
       conditionLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor)
     ])
+  }
+  
+  //MARK: - func fetchWeather()
+  private func fetchWeather() {
+    weatherManager.fetchWeather(city: "Singapore")
+  }
+  
+    //MARK: - func showAnimation()
+  private func showAnimation() {
+    conditionalImageView.showAnimatedGradientSkeleton()
+    temperatureLabel.showAnimatedGradientSkeleton()
+    conditionLabel.showAnimatedGradientSkeleton()
   }
   
   //MARK: - @objc func addBtnTapped()
