@@ -19,7 +19,6 @@ class WeatherViewController: UIViewController {
   
   lazy var conditionalImageView : UIImageView = {
     var v = UIImageView()
-    v.image = UIImage(named: "imClouds")
     v.isSkeletonable = true
     v.clipsToBounds = true
     v.contentMode = .scaleAspectFit
@@ -28,7 +27,6 @@ class WeatherViewController: UIViewController {
   
   lazy var temperatureLabel : UILabel = {
     var l = UILabel()
-    l.text = "24°C"
     l.font = UIFont.boldSystemFont(ofSize: 26)
     l.textAlignment = .center
     l.isSkeletonable = true
@@ -38,7 +36,6 @@ class WeatherViewController: UIViewController {
   
   lazy var conditionLabel : UILabel = {
     var l = UILabel()
-    l.text = "Mostly Cloudy"
     l.font = UIFont.systemFont(ofSize: 26)
     l.textAlignment = .center
     l.isSkeletonable = true
@@ -96,14 +93,37 @@ class WeatherViewController: UIViewController {
   
   //MARK: - func fetchWeather()
   private func fetchWeather() {
-    weatherManager.fetchWeather(city: "Singapore")
+    weatherManager.fetchWeather(city: "korea") { [weak self](result) in
+      guard let this = self else {return}
+      switch result {
+      case .success(let weatherData) :
+        this.updateView(with: weatherData)
+      case .failure(let error) :
+        print("error here : \(error.localizedDescription)")
+      }
+    }
   }
   
+  //MARK: - func updateView()
+  private func updateView (with data : WeatherData) {
+    hideAnimation()
+    
+    temperatureLabel.text = data.main.temp.toString().appending("°C")
+    conditionLabel.text = data.weather.first?.description
+    navigationItem.title = data.name
+  }
     //MARK: - func showAnimation()
   private func showAnimation() {
     conditionalImageView.showAnimatedGradientSkeleton()
     temperatureLabel.showAnimatedGradientSkeleton()
     conditionLabel.showAnimatedGradientSkeleton()
+  }
+  
+  //MARK: - func hideAnimation()
+  private func hideAnimation() {
+    conditionalImageView.hideSkeleton()
+    temperatureLabel.hideSkeleton()
+    conditionLabel.hideSkeleton()
   }
   
   //MARK: - @objc func addBtnTapped()

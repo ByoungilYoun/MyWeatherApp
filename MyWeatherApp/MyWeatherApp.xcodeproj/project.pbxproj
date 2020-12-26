@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		05561FB9F83424BDFBB1DDA2 /* Pods_MyWeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD7FD115081E7BDF4E56EC9A /* Pods_MyWeatherApp.framework */; };
+		0F3F0BE22597BA2B00FE2934 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3F0BE12597BA2B00FE2934 /* Double+Extensions.swift */; };
 		0F65ABB7259777C900417F9B /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65ABB6259777C900417F9B /* WeatherData.swift */; };
 		0F65ABBA25977E4C00417F9B /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65ABB925977E4C00417F9B /* WeatherManager.swift */; };
 		0FCCA694259635D80081625E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FCCA693259635D80081625E /* AppDelegate.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F3F0BE12597BA2B00FE2934 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		0F65ABB6259777C900417F9B /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		0F65ABB925977E4C00417F9B /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		0FCCA690259635D80081625E /* MyWeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -42,6 +44,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F3F0BE02597BA1800FE2934 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				0F3F0BE12597BA2B00FE2934 /* Double+Extensions.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
 		0F65ABAF2597779F00417F9B /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +89,7 @@
 		0FCCA692259635D80081625E /* MyWeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				0F3F0BE02597BA1800FE2934 /* extension */,
 				0FCCA693259635D80081625E /* AppDelegate.swift */,
 				0F65ABB0259777AA00417F9B /* Model */,
 				0F65ABAF2597779F00417F9B /* Manager */,
@@ -224,6 +235,7 @@
 				0F65ABB7259777C900417F9B /* WeatherData.swift in Sources */,
 				0F65ABBA25977E4C00417F9B /* WeatherManager.swift in Sources */,
 				0FCCA694259635D80081625E /* AppDelegate.swift in Sources */,
+				0F3F0BE22597BA2B00FE2934 /* Double+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
