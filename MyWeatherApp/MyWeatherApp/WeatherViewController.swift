@@ -40,11 +40,14 @@ class WeatherViewController: UIViewController {
     l.textAlignment = .center
     return l
   }()
+  
+  private let weatherManager = WeatherManager()
   //MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
     setNavi()
     configureUI()
+    weatherManager.fetchWeather(city: "Singapore")
   }
   
   //MARK: - setNavi()
