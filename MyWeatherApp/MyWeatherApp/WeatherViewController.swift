@@ -54,7 +54,7 @@ class WeatherViewController: UIViewController {
   
   //MARK: - setNavi()
   private func setNavi() {
-    navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName : "plus"), style: .plain, target: self, action: #selector(addBtnTapped))
+    navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName : "plus"), style: .plain, target: self, action: #selector(addCityBtnTapped))
     navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "location"), style: .plain, target: self, action: #selector(locationBtnTapped))
   }
   
@@ -126,9 +126,12 @@ class WeatherViewController: UIViewController {
     conditionLabel.hideSkeleton()
   }
   
-  //MARK: - @objc func addBtnTapped()
-  @objc func addBtnTapped() {
-    print("123")
+  //MARK: - @objc func addCityBtnTapped()
+  @objc func addCityBtnTapped() {
+    let controller = CityViewController()
+    controller.modalPresentationStyle = .fullScreen
+    controller.modalTransitionStyle = .crossDissolve
+    present(controller, animated: true, completion: nil)
   }
   
   //MARK: - @objc func locationBtnTapped()
