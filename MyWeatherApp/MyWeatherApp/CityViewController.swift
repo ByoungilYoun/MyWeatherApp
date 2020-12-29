@@ -55,10 +55,12 @@ class CityViewController : UIViewController {
   //MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = UIColor(white: 0.5, alpha: 0.4)
+    view.backgroundColor = UIColor(white: 0.3, alpha: 0.4)
     configureUI()
 //    indicatorView.startAnimating()
     indicatorView.isHidden = false
+    textField.becomeFirstResponder()
+    setupGesture()
   }
   
   //MARK: - configureUI()
@@ -75,7 +77,7 @@ class CityViewController : UIViewController {
     
     NSLayoutConstraint.activate([
       containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+      containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
       containerView.widthAnchor.constraint(equalToConstant: 200),
       containerView.heightAnchor.constraint(equalToConstant: 200),
       
@@ -85,4 +87,28 @@ class CityViewController : UIViewController {
       
     ])
   }
+  
+  //MARK: - setupGesture()
+  private func setupGesture() {
+    let tapGesture  = UITapGestureRecognizer(target: self, action: #selector(dismissViewControlelr))
+    tapGesture.delegate = self
+    view.addGestureRecognizer(tapGesture)
+  }
+  
+  //MARK: - @objc func dissmissKeyboard()
+  @objc func dismissViewControlelr() {
+    dismiss(animated: true, completion: nil)
+  }
+  
+  //MARK: - @objc func searchButtonTapped()
+  @objc func searchButtonTapped() {
+    
+  }
+}
+
+extension CityViewController : UIGestureRecognizerDelegate {
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+    return touch.view == self.view
+  }
+  
 }
