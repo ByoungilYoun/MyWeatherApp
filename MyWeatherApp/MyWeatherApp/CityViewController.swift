@@ -36,6 +36,7 @@ class CityViewController : UIViewController {
     bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
     bt.backgroundColor = .green
     bt.layer.cornerRadius = 8
+    bt.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
     return bt
   }()
   
@@ -50,6 +51,8 @@ class CityViewController : UIViewController {
     let lb = UILabel()
     lb.text = "Status"
     lb.textAlignment = .center
+    lb.font = UIFont.systemFont(ofSize: 16)
+    lb.numberOfLines = 0
     return lb
   }()
   //MARK: - LifeCycle
@@ -58,9 +61,14 @@ class CityViewController : UIViewController {
     view.backgroundColor = UIColor(white: 0.3, alpha: 0.4)
     configureUI()
 //    indicatorView.startAnimating()
-    indicatorView.isHidden = false
+//    indicatorView.isHidden = false
     textField.becomeFirstResponder()
     setupGesture()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    statusLabel.isHidden = true
   }
   
   //MARK: - configureUI()
@@ -84,7 +92,6 @@ class CityViewController : UIViewController {
       stackView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
       stackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
       stackView.widthAnchor.constraint(equalToConstant: 180),
-      
     ])
   }
   
@@ -102,10 +109,28 @@ class CityViewController : UIViewController {
   
   //MARK: - @objc func searchButtonTapped()
   @objc func searchButtonTapped() {
-    
+    statusLabel.isHidden = true
+    guard let query = textField.text , !query.isEmpty else {
+      showSearchError(text: "City cannot be empty. Please try again!")
+      return
+    }
+    searchForCity(query: query)
+  }
+  
+  //MARK: - func showSearchError()
+  private func showSearchError(text : String) {
+    statusLabel.isHidden = false
+    statusLabel.textColor = .systemRed
+    statusLabel.text = text
+  }
+  
+  //MARK: - func searchForCity
+  private func searchForCity(query : String) {
+    print("search : \(query)")
   }
 }
 
+  //MARK: - UIGestureRecognizerDelegate
 extension CityViewController : UIGestureRecognizerDelegate {
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
     return touch.view == self.view
