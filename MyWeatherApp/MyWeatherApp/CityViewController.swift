@@ -55,13 +55,14 @@ class CityViewController : UIViewController {
     lb.numberOfLines = 0
     return lb
   }()
+  
+  private let weatherManager = WeatherManager()
+  
   //MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = UIColor(white: 0.3, alpha: 0.4)
     configureUI()
-//    indicatorView.startAnimating()
-//    indicatorView.isHidden = false
     textField.becomeFirstResponder()
     setupGesture()
   }
@@ -114,7 +115,7 @@ class CityViewController : UIViewController {
       showSearchError(text: "City cannot be empty. Please try again!")
       return
     }
-    searchForCity(query: query)
+    handleSearch(query: query)
   }
   
   //MARK: - func showSearchError()
@@ -125,8 +126,26 @@ class CityViewController : UIViewController {
   }
   
   //MARK: - func searchForCity
-  private func searchForCity(query : String) {
-    print("search : \(query)")
+  private func handleSearch(query : String) {
+//    print("search : \(query)")
+    indicatorView.startAnimating() // 애니메이션 스타트
+    weatherManager.fetchWeather(city: query) { [weak self](result) in
+      guard let this = self else {return}
+      this.indicatorView.stopAnimating() // search 한뒤 가져오면 애니메이션 stop
+      switch result {
+      case .success(let model) :
+        print(model.countryName)
+        this.handleSearchSuccess(model: model)
+      case .failure(let error) :
+        this.showSearchError(text: error.localizedDescription)
+      }
+    }
+  }
+  
+  private func handleSearchSuccess(model : WeatherModel) {
+    statusLabel.isHidden = false
+    statusLabel.textColor = .systemGreen
+    statusLabel.text = "Success!"
   }
 }
 
