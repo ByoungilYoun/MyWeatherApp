@@ -58,6 +58,8 @@ class CityViewController : UIViewController {
   
   private let weatherManager = WeatherManager()
   
+  weak var delegate : WeatherViewControllerDelegate?
+  
   //MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -128,6 +130,7 @@ class CityViewController : UIViewController {
   //MARK: - func searchForCity
   private func handleSearch(query : String) {
 //    print("search : \(query)")
+    view.endEditing(true) // 검색을 했을때 바로 뷰가 endEditing 이 된걸 감지하고 키보드를 내린다.
     indicatorView.startAnimating() // 애니메이션 스타트
     weatherManager.fetchWeather(city: query) { [weak self](result) in
       guard let this = self else {return}
@@ -146,6 +149,9 @@ class CityViewController : UIViewController {
     statusLabel.isHidden = false
     statusLabel.textColor = .systemGreen
     statusLabel.text = "Success!"
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+      self?.delegate?.didUpdateWeatherFromSearch(model: model)
+    }
   }
 }
 

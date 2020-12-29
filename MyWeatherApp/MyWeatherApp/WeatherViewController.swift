@@ -8,6 +8,11 @@
 import UIKit
 import SkeletonView
 
+ //MARK: - WeatherViewControllerDelegate - childView 인 CityViewController 의 내용을 가져와서 업데이트를 하기 위한 프로토콜
+protocol  WeatherViewControllerDelegate : class {
+  func didUpdateWeatherFromSearch (model : WeatherModel)
+}
+
 class WeatherViewController: UIViewController {
   
   lazy var stackView : UIStackView = {
@@ -132,6 +137,7 @@ class WeatherViewController: UIViewController {
     let controller = CityViewController()
     controller.modalPresentationStyle = .fullScreen
     controller.modalTransitionStyle = .crossDissolve
+    controller.delegate = self // controller(CityViewController) 의 delegate 는 self(WeatherViewController)
     present(controller, animated: true, completion: nil)
   }
   
@@ -141,3 +147,13 @@ class WeatherViewController: UIViewController {
   }
 }
 
+  //MARK: - WeatherViewControllerDelegate 
+extension WeatherViewController : WeatherViewControllerDelegate {
+  func didUpdateWeatherFromSearch(model: WeatherModel) {
+    presentedViewController?.dismiss(animated: true, completion: { [weak self] in
+      guard let this = self else {return}
+      this.updateView(with: model)
+    })
+    
+  }
+}
