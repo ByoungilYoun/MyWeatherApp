@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		05561FB9F83424BDFBB1DDA2 /* Pods_MyWeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD7FD115081E7BDF4E56EC9A /* Pods_MyWeatherApp.framework */; };
+		0F26552A259B7A7D0073B5E3 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F265529259B7A7D0073B5E3 /* Int+Extensions.swift */; };
 		0F3F0BE22597BA2B00FE2934 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3F0BE12597BA2B00FE2934 /* Double+Extensions.swift */; };
 		0F65ABB7259777C900417F9B /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65ABB6259777C900417F9B /* WeatherData.swift */; };
 		0F65ABBA25977E4C00417F9B /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F65ABB925977E4C00417F9B /* WeatherManager.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F265529259B7A7D0073B5E3 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		0F3F0BE12597BA2B00FE2934 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		0F65ABB6259777C900417F9B /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		0F65ABB925977E4C00417F9B /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
@@ -50,6 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				0F3F0BE12597BA2B00FE2934 /* Double+Extensions.swift */,
+				0F265529259B7A7D0073B5E3 /* Int+Extensions.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 				0F65ABB7259777C900417F9B /* WeatherData.swift in Sources */,
 				0F65ABBA25977E4C00417F9B /* WeatherManager.swift in Sources */,
 				0FCCA694259635D80081625E /* AppDelegate.swift in Sources */,
+				0F26552A259B7A7D0073B5E3 /* Int+Extensions.swift in Sources */,
 				0F3F0BE22597BA2B00FE2934 /* Double+Extensions.swift in Sources */,
 				0F8B4C4B259A24B10097B105 /* CityViewController.swift in Sources */,
 			);
