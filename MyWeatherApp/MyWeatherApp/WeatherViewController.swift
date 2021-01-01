@@ -157,6 +157,7 @@ class WeatherViewController: UIViewController {
     case .notDetermined :
       // 부인되면 request 로 물어봐야한다.
       locationManager.requestWhenInUseAuthorization()
+      locationManager.requestLocation()
     default:
       promptForLocationPermission()
     }
@@ -189,7 +190,12 @@ extension WeatherViewController : WeatherViewControllerDelegate {
   //MARK: - CLLocationManagerDelegate
 extension WeatherViewController : CLLocationManagerDelegate {
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    
+    if let location = locations.last {
+      manager.stopUpdatingLocation()
+      let latitude = location.coordinate.latitude
+      let langitude = location.coordinate.longitude
+      print(latitude, langitude)
+    }
   }
   
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
