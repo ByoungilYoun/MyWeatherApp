@@ -7,6 +7,7 @@
 
 import UIKit
 import SkeletonView
+import CoreLocation
 
  //MARK: - WeatherViewControllerDelegate - childView 인 CityViewController 의 내용을 가져와서 업데이트를 하기 위한 프로토콜
 protocol  WeatherViewControllerDelegate : class {
@@ -48,6 +49,13 @@ class WeatherViewController: UIViewController {
   }()
   
   private let weatherManager = WeatherManager()
+  
+  private lazy var locationManager : CLLocationManager = {
+    let manager = CLLocationManager()
+    manager.delegate = self
+    return manager
+  }()
+  
   //MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -143,7 +151,27 @@ class WeatherViewController: UIViewController {
   
   //MARK: - @objc func locationBtnTapped()
   @objc func locationBtnTapped() {
-    print("456")
+    switch CLLocationManager.authorizationStatus() {
+    case .authorizedAlways, .authorizedWhenInUse:
+      locationManager.requestLocation()
+    case .notDetermined :
+      // 부인되면 request 로 물어봐야한다.
+      locationManager.requestWhenInUseAuthorization()
+    default:
+      promptForLocationPermission()
+    }
+  }
+  
+  private func promptForLocationPermission() {
+    let alertController = UIAlertController(title: "Requires Location Permission", message: "Would you like to enable location permission in Settings?", preferredStyle: .alert)
+    let enableAction = UIAlertAction(title: "Go to Settings", style: .default) { _ in
+      guard let settingURL = URL(string: UIApplication.openSettingsURLString) else {return}
+      UIApplication.shared.open(settingURL, options: [:], completionHandler: nil)
+    }
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    alertController.addAction(enableAction)
+    alertController.addAction(cancelAction)
+    self.present(alertController, animated: true, completion: nil)
   }
 }
 
@@ -154,6 +182,17 @@ extension WeatherViewController : WeatherViewControllerDelegate {
       guard let this = self else {return}
       this.updateView(with: model)
     })
+    
+  }
+}
+
+  //MARK: - CLLocationManagerDelegate
+extension WeatherViewController : CLLocationManagerDelegate {
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
     
   }
 }
