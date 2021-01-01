@@ -63,7 +63,7 @@ class WeatherViewController: UIViewController {
     super.viewDidLoad()
     setNavi()
     configureUI()
-    fetchWeather(byCity: "xxxxxxx123")
+    fetchWeather(byCity: "berlin")
   }
   
   //MARK: - setNavi()
@@ -132,16 +132,21 @@ class WeatherViewController: UIViewController {
     case .success(let model) :
       updateView(with: model)
     case .failure(let error) :
-      hideAnimation()
-      navigationItem.title = ""
-      conditionalImageView.image = UIImage(named: "imSad")
-      temperatureLabel.text = "Oops"
-      conditionLabel.text = "Something went wrong.\nPlease try again."
-      Loaf(error.localizedDescription, state: .error, location: .top, sender: self).show()
+      handleError(error)
     }
   }
   
- 
+  //MARK: - func handleError()
+  private func handleError(_ error : Error) {
+    hideAnimation()
+    
+    navigationItem.title = ""
+    conditionalImageView.image = UIImage(named: "imSad")
+    temperatureLabel.text = "Oops"
+    conditionLabel.text = "Something went wrong.\nPlease try again."
+    Loaf(error.localizedDescription, state: .error, location: .top, sender: self).show()
+  }
+  
   
   //MARK: - func updateView()
   private func updateView (with model : WeatherModel) {
@@ -224,7 +229,7 @@ extension WeatherViewController : CLLocationManagerDelegate {
   }
   
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    
+    handleError(error)
   }
 }
  
