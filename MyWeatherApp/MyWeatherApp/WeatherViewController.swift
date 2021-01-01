@@ -61,8 +61,7 @@ class WeatherViewController: UIViewController {
     super.viewDidLoad()
     setNavi()
     configureUI()
-    fetchWeather()
-    showAnimation()
+    fetchWeather(byCity: "berlin")
   }
   
   //MARK: - setNavi()
@@ -104,18 +103,39 @@ class WeatherViewController: UIViewController {
     ])
   }
   
-  //MARK: - func fetchWeather()
-  private func fetchWeather() {
-    weatherManager.fetchWeather(city: "new york") { [weak self](result) in
+  //MARK: - fetchWeather(byLocation)
+  private func fetchWeather(byLocation location : CLLocation) {
+    showAnimation()
+    
+    let lat = location.coordinate.latitude
+    let lon = location.coordinate.longitude
+    weatherManager.fetchWeather(lat: lat, lon: lon) { [weak self] (result) in
       guard let this = self else {return}
-      switch result {
-      case .success(let model) :
-        this.updateView(with: model)
-      case .failure(let error) :
-        print("error here : \(error.localizedDescription)")
-      }
+      this.handleResult(result)
     }
   }
+  
+  //MARK: - func fetchWeather()
+  private func fetchWeather(byCity city : String) {
+    showAnimation()
+    
+    weatherManager.fetchWeather(city: city) { [weak self](result) in
+      guard let this = self else {return}
+      this.handleResult(result)
+    }
+  }
+
+  //MARK: - func handleResult()
+  private func handleResult(_ result : Result<WeatherModel, Error>) {
+    switch result {
+    case .success(let model) :
+      updateView(with: model)
+    case .failure(let error) :
+      print("error here : \(error.localizedDescription)")
+    }
+  }
+  
+ 
   
   //MARK: - func updateView()
   private func updateView (with model : WeatherModel) {
@@ -163,6 +183,7 @@ class WeatherViewController: UIViewController {
     }
   }
   
+  //MARK: - promptForLocationPermission()
   private func promptForLocationPermission() {
     let alertController = UIAlertController(title: "Requires Location Permission", message: "Would you like to enable location permission in Settings?", preferredStyle: .alert)
     let enableAction = UIAlertAction(title: "Go to Settings", style: .default) { _ in
@@ -192,9 +213,7 @@ extension WeatherViewController : CLLocationManagerDelegate {
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     if let location = locations.last {
       manager.stopUpdatingLocation()
-      let latitude = location.coordinate.latitude
-      let langitude = location.coordinate.longitude
-      print(latitude, langitude)
+      fetchWeather(byLocation: location)
     }
   }
   
@@ -202,3 +221,4 @@ extension WeatherViewController : CLLocationManagerDelegate {
     
   }
 }
+ 
