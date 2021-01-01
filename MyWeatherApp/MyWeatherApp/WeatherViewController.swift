@@ -8,6 +8,7 @@
 import UIKit
 import SkeletonView
 import CoreLocation
+import Loaf
 
  //MARK: - WeatherViewControllerDelegate - childView 인 CityViewController 의 내용을 가져와서 업데이트를 하기 위한 프로토콜
 protocol  WeatherViewControllerDelegate : class {
@@ -45,6 +46,7 @@ class WeatherViewController: UIViewController {
     l.font = UIFont.systemFont(ofSize: 26)
     l.textAlignment = .center
     l.isSkeletonable = true
+    l.numberOfLines = 0
     return l
   }()
   
@@ -61,7 +63,7 @@ class WeatherViewController: UIViewController {
     super.viewDidLoad()
     setNavi()
     configureUI()
-    fetchWeather(byCity: "berlin")
+    fetchWeather(byCity: "xxxxxxx123")
   }
   
   //MARK: - setNavi()
@@ -99,7 +101,6 @@ class WeatherViewController: UIViewController {
       conditionLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor),
       conditionLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
       conditionLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-      conditionLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor)
     ])
   }
   
@@ -131,7 +132,12 @@ class WeatherViewController: UIViewController {
     case .success(let model) :
       updateView(with: model)
     case .failure(let error) :
-      print("error here : \(error.localizedDescription)")
+      hideAnimation()
+      navigationItem.title = ""
+      conditionalImageView.image = UIImage(named: "imSad")
+      temperatureLabel.text = "Oops"
+      conditionLabel.text = "Something went wrong.\nPlease try again."
+      Loaf(error.localizedDescription, state: .error, location: .top, sender: self).show()
     }
   }
   
